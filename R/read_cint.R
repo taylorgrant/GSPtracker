@@ -169,7 +169,9 @@ read_cint <- function(file_loc) {
     digital = "weights_digital",
     social = "weights_social",
     campaign = "weights_xmedia",
-    tv = "weights_tv"
+    tv = "weights_tv",
+    ooh = "weights_ooh",
+    you_tube = "weights_you_tube"
   )
 
   for (nm in names(weight_map)) {
