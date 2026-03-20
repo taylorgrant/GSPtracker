@@ -2,7 +2,7 @@
 % Please edit documentation in R/brand_summary.R
 \name{brand_summary}
 \alias{brand_summary}
-\title{Summarize tracker data for a specific brand}
+\title{Summarize brand survey responses}
 \usage{
 brand_summary(
   data,
@@ -10,35 +10,102 @@ brand_summary(
   qq,
   include_month = FALSE,
   include_quarter = FALSE,
-  moving_average = FALSE
+  moving_average = FALSE,
+  drop_unaware = TRUE
 )
 }
 \arguments{
-\item{data}{Tracker dataset to use}
+\item{data}{A \code{srvyr} survey object containing the survey data.}
 
-\item{groups}{Group to cut by, or NULL}
+\item{groups}{Optional character vector of grouping variables to include in
+the summary.}
 
-\item{qq}{Tracker question of interest}
+\item{qq}{A character string giving the survey question variable to summarize.}
 
-\item{include_month}{Logical - break data out by month of tracker}
+\item{include_month}{Logical. If \code{TRUE}, adds a monthly time grouping based on
+\code{date}.}
 
-\item{include_quarter}{Logical - roll data up to quarters}
+\item{include_quarter}{Logical. If \code{TRUE}, adds a quarterly time grouping
+based on \code{date}.}
 
-\item{moving_average}{Logical - include 3 month rolling average}
+\item{moving_average}{Logical. If \code{TRUE}, computes a 3-period moving average
+using rolling sums of \code{n} and \code{total}. Requires \code{include_month = TRUE} and
+\code{include_quarter = FALSE}.}
+
+\item{drop_unaware}{Logical. If \code{TRUE} (default), respondents with
+\code{awr_a_1} missing or equal to \code{0} are removed before summarization for all
+questions except unaided awareness / \code{awr_a_1}.}
 }
 \value{
-Dataframe
+A tibble with one row per response level and grouping combination. Output
+includes:
+\itemize{
+\item \code{svy_q}: response level for the summarized question
+\item \code{proportion}: weighted survey proportion
+\item \code{n}: weighted survey total for that response
+\item \code{total}: weighted denominator within the grouping
+\item \code{var}: the input variable name supplied to \code{qq}
+}
+
+If \code{moving_average = TRUE}, the output also includes:
+\itemize{
+\item \code{ma_n}: rolling 3-period sum of \code{n}
+\item \code{ma_total}: rolling 3-period sum of \code{total}
+\item \code{ma3}: rolling 3-period proportion, calculated as \code{ma_n / ma_total}
+}
 }
 \description{
-Summarizes the control/exposed across brand metrics, brand traits, and brand attributes. If using
-the unweighted data set, it returns total population percentages.
+\code{brand_summary()} summarizes a survey question from a \code{srvyr} survey object,
+returning weighted proportions, estimated counts, and denominators by response
+option. The function can optionally include monthly or quarterly time cuts,
+user-supplied grouping variables, and a rolling 3-period moving average.
+}
+\details{
+For most brand questions, respondents flagged as unaware are dropped from the
+denominator using \code{awr_a_1}. Brand momentum questions are also recoded into
+Top 2 Box / Bottom 2 Box categories.
+
+The function:
+\itemize{
+\item derives \code{month} and \code{quarter} from \code{date}
+\item optionally removes unaware respondents using \code{awr_a_1}
+\item renames the selected survey variable to \code{svy_q}
+\item recodes brand momentum responses into Top 2 Box / Bottom 2 Box
+\item summarizes weighted proportions and totals using \code{srvyr}
+\item removes \code{"NULL"}, \code{0}, and \code{"unclassified"} categories from the final
+output where applicable
+}
 }
 \examples{
 \dontrun{
-# individual question
-brand_summary(cint$campaign, groups = NULL, qq = "unaided_awareness_client")
-# multiple questions (using map::purrr)
-c("unaided_awareness_client", "awr_a_1", "awr_aad_5") |>
-purrr::map_dfr(~ brand_summary(data = cint$unweighted, groups = NULL, qq = .x))
+# Overall summary for one question
+brand_summary(
+  data = cint$unweighted,
+  qq = "purchase_intent"
+)
+
+# Summary by month
+brand_summary(
+  data = cint$unweighted,
+  qq = "consideration",
+  include_month = TRUE
+)
+
+# Summary by custom grouping variable and month
+brand_summary(
+  data = cint$unweighted,
+  groups = "demo_gender",
+  qq = "momentum_br",
+  include_month = TRUE
+)
+
+# Monthly summary with moving average
+brand_summary(
+  data = cint$unweighted,
+  qq = "purchase_intent",
+  include_month = TRUE,
+  moving_average = TRUE
+)
 }
+
 }
