@@ -1,17 +1,78 @@
-#' Read in tracker data from Cint
+#' Read and prepare Cint tracker data
 #'
-#' This function reads in the raw data and weights the data using the weights provided by Cint in the file.
+#' `read_cint()` imports a Cint tracker export from Excel, performs initial
+#' cleaning and feature engineering, and returns both the cleaned respondent-level
+#' data and a set of `srvyr` survey designs for weighted and unweighted analysis.
 #'
-#' @param file_loc Give the location of the tracker file
+#' The function standardizes column names, removes duplicate respondents,
+#' repairs known naming issues, derives demographic and behavioral variables, and
+#' constructs survey designs for any available weight columns in the file.
 #'
-#' @returns Named list. Raw datafile (df), all others are in srvyr survey format
+#' @param file_loc A character string giving the path to the Cint Excel file.
 #'
-#' @export
+#' @return
+#' A named list containing:
+#' \itemize{
+#'   \item `df`: the cleaned respondent-level data frame
+#'   \item `digital`: a `srvyr` survey design weighted by `weights_digital`,
+#'   if present
+#'   \item `social`: a `srvyr` survey design weighted by `weights_social`,
+#'   if present
+#'   \item `campaign`: a `srvyr` survey design weighted by `weights_xmedia`,
+#'   if present
+#'   \item `tv`: a `srvyr` survey design weighted by `weights_tv`,
+#'   if present
+#'   \item `ooh`: a `srvyr` survey design weighted by `weights_ooh`,
+#'   if present
+#'   \item `you_tube`: a `srvyr` survey design weighted by
+#'   `weights_you_tube`, if present
+#'   \item `unweighted`: an unweighted `srvyr` survey design
+#' }
+#'
+#' @details
+#' The function performs the following preparation steps:
+#' \itemize{
+#'   \item reads the Excel file with [readxl::read_excel()]
+#'   \item standardizes column names with [janitor::clean_names()]
+#'   \item corrects known column name spelling issues
+#'   \item removes duplicate rows based on `response_id`
+#'   \item coerces weight columns to numeric and replaces missing weights with `0`
+#'   \item derives year of birth and generation labels from `age`
+#'   \item creates regional groupings from `demo_state`
+#'   \item creates collapsed demographic flags such as `genz_millen` and
+#'   `demo_premium`
+#'   \item parses `end_date` into `date` and derives `month`
+#'   \item creates EV intent and BMW model consideration flags
+#'   \item builds weighted survey designs for any supported weight columns found
+#'   in the data
+#' }
+#'
+#' Supported weighted survey outputs are generated for these weight columns when
+#' available:
+#' \itemize{
+#'   \item `weights_digital`
+#'   \item `weights_social`
+#'   \item `weights_xmedia`
+#'   \item `weights_tv`
+#'   \item `weights_ooh`
+#'   \item `weights_you_tube`
+#' }
+#'
 #' @examples
 #' \dontrun{
-#' file_loc <- "/folder/director/file.csv"
-#' cint <- read_cint(file_loc)
+#' cint <- read_cint("data/cint_tracker.xlsx")
+#'
+#' # Clean respondent-level data
+#' cint$df
+#'
+#' # Weighted survey design
+#' cint$campaign
+#'
+#' # Unweighted survey design
+#' cint$unweighted
 #' }
+#'
+#' @export
 read_cint <- function(file_loc) {
   gen_labels = c(
     "Gen Alpha",
