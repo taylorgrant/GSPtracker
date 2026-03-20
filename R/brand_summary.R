@@ -27,7 +27,8 @@ brand_summary <- function(
   qq,
   include_month = FALSE,
   include_quarter = FALSE,
-  moving_average = FALSE
+  moving_average = FALSE,
+  drop_unaware = TRUE
 ) {
   # check that moving average can be run (only if including months)
   if (moving_average && !include_month) {
@@ -55,7 +56,14 @@ brand_summary <- function(
     dplyr::mutate(
       month = lubridate::floor_date(date, "month"),
       quarter = lubridate::floor_date(date, "quarter")
-    ) |>
+    )
+
+  if (drop_unaware && !stringr::str_detect(qq, "unaided_awareness|awr_a_1")) {
+    tmp <- tmp |>
+      dplyr::filter(!is.na(.data[["awr_a_1"]]), .data[["awr_a_1"]] != 0)
+  }
+
+  tmp <- tmp |>
     dplyr::rename(svy_q = !!rlang::sym(qq))
 
   # if brand momentum, convert to top 2 / bottom 2 box
@@ -88,14 +96,11 @@ brand_summary <- function(
       )
   }
 
-  # if not unaided awareness, drop "0" on aided awareness. this used to be dropping "NULL" on the
-  # svy_q, but purchase intent doesn't have a null. drop unaware of BMW
-  if (!stringr::str_detect(qq, "unaided_awareness")) {
-    # tmp <- tmp |>
-    #   dplyr::filter(.data$svy_q != "NULL")
-    tmp <- tmp |>
-      dplyr::filter(awr_a_1 != "0")
-  }
+  # if not unaided awareness, drop "NULL" (this is old filter for unaware of bmw)
+  # if (!stringr::str_detect(qq, "unaided_awareness")) {
+  #   tmp <- tmp |>
+  #     dplyr::filter(.data$svy_q != "NULL")
+  # }
 
   # set up groupings for the data (if groups are there)
   group_vars <- groups # Start with user-supplied groups
