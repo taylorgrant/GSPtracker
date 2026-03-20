@@ -1,26 +1,54 @@
-#' Tracker questions per brand
+#' Return tracker variable mappings for a selected brand
 #'
-#' Based on inputted brand name, the function returns the survey variable names use to
-#' measure brand health metrics, key attributes, and brand perceptions in the tracker data.
+#' `brand_choice()` standardizes a user-supplied brand name and returns the
+#' tracker variable names associated with that brand. The output is a named list
+#' of tibbles covering core brand funnel variables, brand personality traits,
+#' and brand functional attributes.
 #'
-#' Supported brands include: Audi, BMW, Lexus, Mercedes-Benz, Tesla. The function is
-#' case insensitive and includes alias handling (e.g., "merc" = "Mercedes Benz")
+#' Supported brands are BMW, Audi, Lexus, Mercedes Benz, Tesla, and
+#' "None of the Above".
 #'
-#' @param brand Character. Name of the brand of interest
+#' @param brand A character string giving the brand name. Input is
+#'   case-insensitive and may include partial matches such as `"merc"` for
+#'   Mercedes Benz or `"none"` for None of the Above.
 #'
-#' @returns A named list of three tibbles:
-#' \describe{
-#'   \item{brand_vars}{Variables and question labels for awareness and momentum.}
-#'   \item{key_attrs}{Variables and question labels for key model attributes.}
-#'   \item{brand_attrs}{Variables and question labels for brand perceptions.}
+#' @return
+#' A named list with three tibbles:
+#' \itemize{
+#'   \item `brand_vars`: core brand funnel and momentum variables
+#'   \item `brand_traits`: brand personality trait variables
+#'   \item `brand_attrs`: brand functional attribute variables
 #' }
 #'
-#' @export
+#' Each tibble contains:
+#' \itemize{
+#'   \item `var`: the tracker variable name
+#'   \item `q`: a human-readable question or attribute label
+#' }
+#'
+#' @details
+#' The function:
+#' \itemize{
+#'   \item normalizes the brand input to lower case
+#'   \item validates that the selected brand is included in the tracker
+#'   \item maps common aliases such as `"merc"` and `"none"` to their canonical
+#'   labels
+#'   \item constructs brand-specific tracker variable names by combining
+#'   variable prefixes with brand-specific numeric or text suffixes
+#' }
+#'
 #' @examples
 #' \dontrun{
-#' brand_choice("BMW")
-#' brand_choice("mercedes")
-#' }
+#' # BMW variables
+#' brand_choice("bmw")
+#'
+#' # Mercedes Benz using a partial input
+#' brand_choice("merc")
+#'
+#' # None of the Above
+#' brand_choice("none")
+#'}
+#' @export
 brand_choice <- function(brand) {
   brand_clean <- tolower(brand)
 
