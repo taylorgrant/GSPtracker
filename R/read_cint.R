@@ -40,7 +40,8 @@ read_cint <- function(file_loc) {
 
   df <- readxl::read_excel(file_loc) |>
     janitor::clean_names() |>
-    dplyr::distinct(.data$response_id, .keep_all = TRUE) |>
+    dplyr::rename_with(~ stringr::str_replace_all(.x, "brfuncitonal", ""))
+  dplyr::distinct(.data$response_id, .keep_all = TRUE) |>
     dplyr::mutate(
       dplyr::across(
         dplyr::starts_with("weights_"),
