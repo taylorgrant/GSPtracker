@@ -57,9 +57,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' creative_summary(data = tracker_df)
+#' creative_summary(data = cint$df)
 #'
-#' creative_summary(data = tracker_df, group = "wave")
+#' creative_summary(data = cint$df, group = "demo_gender")
 #'}
 #' @export
 creative_summary <- function(data, group = NULL) {
