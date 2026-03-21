@@ -33,25 +33,29 @@ names(cint)
 
 ### Get variable mappings for a brand
 
-Use brand_choice() to retrieve tracker variable mappings for supported
+Use `brand_choice()` to retrieve tracker variable mappings for supported
 brands (Audi, BMW, Lexus, Mercedes, Tesla).
 
-`{r}, eval = FALSE bmw_qs <- brand_choice("bmw")`
+``` r
+bmw_qs <- brand_choice("bmw")
+```
 
 ### Summarize brand questions
 
 Use `brand_summary()` on a `srvyr` survey object to summarize a tracker
 question.
 
-There are a number of arguments in the summary function: - data: e.g.,
-cint$campaign, cint$unweighted, etc. - include_month: TRUE/FALSE, do you
-want data at the monthly level - inlcude_quarter: TRUE/FALSE, do you
-want data rolled up to the quarterly level (if `include_month` and
-`include_quarter` are both FALSE, all metrics will be aggregated to
-single values) - moving_average: TRUE/FALSE, if `include_month` is also
-TRUE, a 3-month moving average will be estimated - drop_unaware:
-TRUE/FALSE, drops those that aren’t aware of BMW. Recommend keeping this
-as TRUE
+There are a number of arguments in the summary function:
+
+- data: e.g., cint$campaign, cint$unweighted, etc.
+- include_month: TRUE/FALSE, do you want data at the monthly level
+- inlcude_quarter: TRUE/FALSE, do you want data rolled up to the
+  quarterly level (if `include_month` and `include_quarter` are both
+  FALSE, all metrics will be aggregated to single values)
+- moving_average: TRUE/FALSE, if `include_month` is also TRUE, a 3-month
+  moving average will be estimated
+- drop_unaware: TRUE/FALSE, drops those that aren’t aware of BMW.
+  Recommend keeping this as TRUE
 
 To run over all metrics for a brand:
 
