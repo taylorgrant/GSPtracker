@@ -20,7 +20,7 @@ remotes::install_github("taylorgrant/GSPtracker")
 
 ### Read in and prepare tracker data
 
-Use read_cint() to import a tracker export and prepare cleaned
+Use `read_cint()` to import a tracker export and prepare cleaned
 respondent-level data plus survey designs. The object `cint` is a named
 list. The list will include a raw file `df`, an `unweighted` that’s used
 for overall results, and then a series of other weighted datasets used
@@ -31,7 +31,7 @@ cint <- read_cint("path/to/cint_tracker_file.xlsx")
 names(cint)
 ```
 
-\### Get variable mappings for a brand
+### Get variable mappings for a brand
 
 Use brand_choice() to retrieve tracker variable mappings for supported
 brands (Audi, BMW, Lexus, Mercedes, Tesla).
