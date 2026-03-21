@@ -127,7 +127,7 @@ creative_summary <- function(data, group = NULL) {
           dplyr::mutate(
             total = sum(.data$n),
             box = dplyr::case_when(
-              !!sym(qq) %in%
+              !!rlang::sym(qq) %in%
                 c("Somewhat Agree", "Strongly Agree") ~ "T2B",
               TRUE ~ 'not'
             )
