@@ -1,6 +1,6 @@
 Package: GSPtracker
 Title: Process Lucid/Cint tracker data
-Version: 0.0.0.9000
+Version: 1.0
 Authors@R: 
     person("Taylor", "Grant", , "taylor.grant@omc.com", role = c("aut", "cre"))
 Description: A package to easily process Cint tracker data. 
