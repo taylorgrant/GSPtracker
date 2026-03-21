@@ -15,9 +15,14 @@ Imports:
     glue,
     janitor,
     lubridate,
+    purrr,
     readxl,
     rlang,
     srvyr,
     stringr,
+    tibble,
     tidyr,
     zoo
+Depends: 
+    R (>= 3.5)
+LazyData: true
