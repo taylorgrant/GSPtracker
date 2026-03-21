@@ -57,10 +57,40 @@ There are a number of arguments in the summary function:
 - drop_unaware: TRUE/FALSE, drops those that aren’t aware of BMW.
   Recommend keeping this as TRUE
 
-To run over all metrics for a brand:
+Assume we’re interested in overall results (not C/E).
+
+To run over a single metric:
 
 ``` r
-bmw <- bmw_qs |>
+brand_summary(
+  cint$campaign,
+  groups = NULL,
+  qq = bmw_qs$brand_vars[bmw_qs$brand_vars$q == "Unaided Awareness", ]$var
+)
+```
+
+To run over all metrics for a brand for a specific question bank
+(metrics, traits, attributes):
+
+``` r
+bmw_metrics <- bmw_qs$brand_vars |>
+  purrr::pmap_dfr(function(question, var, ...) {
+    brand_summary(
+      data = cint$unweighted,
+      groups = NULL,
+      qq = var,
+      include_month = FALSE,
+      include_quarter = FALSE,
+      moving_average = FALSE
+    ) |>
+      dplyr::mutate(question = question)
+  })
+```
+
+To run over all metrics in the tracker for a brand:
+
+``` r
+bmw_all <- bmw_qs |>
   purrr::imap_dfr(function(q_df, grp) {
     purrr::pmap_dfr(q_df, function(question, var, ...) {
       brand_summary(
@@ -85,14 +115,14 @@ bmw <- bmw_qs |>
 being asked about and it will clean the data into a tidy data frame.
 
 ``` r
-bmw_clean <- bmw |>
+bmw_clean <- bmw_all |>
   brand_cleaner("bmw")
 ```
 
 If you want a wide output for joining multiple brands:
 
 ``` r
-bmw_wide <- brand_cleaner(bmw, brand = "bmw", wide = TRUE)
+bmw_wide <- brand_cleaner(bmw_all, brand = "bmw", wide = TRUE)
 head(bmw_wide)
 ```
 
