@@ -86,7 +86,7 @@ creative_summary <- function(data, group = NULL) {
           dplyr::mutate(
             total = sum(.data$n),
             box = dplyr::case_when(
-              stringr::str_detect(!!sym(qq), "positive") ~ "T2B",
+              stringr::str_detect(!!rlang::sym(qq), "positive") ~ "T2B",
               TRUE ~ "not"
             )
           ) |>
@@ -170,7 +170,7 @@ creative_summary <- function(data, group = NULL) {
           dplyr::mutate(
             total = sum(.data$n),
             box = dplyr::case_when(
-              stringr::str_detect(!!sym(qq), "positive") ~ "T2B",
+              stringr::str_detect(!!rlang::sym(qq), "positive") ~ "T2B",
               TRUE ~ "not"
             )
           ) |>
