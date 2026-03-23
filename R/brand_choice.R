@@ -91,7 +91,7 @@ brand_choice <- function(brand) {
     "bmw" = rep("5", 15),
     "lexus" = rep("29", 15),
     "mercedes benz" = rep("26", 15),
-    "tesla" = rep("30", 15)
+    "tesla" = rep("27", 15)
   )
 
   bv_vec <- c(
