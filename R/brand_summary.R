@@ -124,7 +124,7 @@ brand_summary <- function(
       quarter = lubridate::floor_date(date, "quarter")
     )
 
-  if (drop_unaware && !stringr::str_detect(qq, "unaided_awareness|awr_a_1")) {
+  if (drop_unaware && !stringr::str_detect(qq, "awr_ua_|awr_a_1")) {
     tmp <- tmp |>
       dplyr::filter(!is.na(.data[["awr_a_1"]]), .data[["awr_a_1"]] != 0)
   }
