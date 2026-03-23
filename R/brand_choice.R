@@ -68,7 +68,7 @@ brand_choice <- function(brand) {
     brand_clean,
     "none of the above" = c("6", "7", "7", "", "x6"),
     "audi" = c("audi", "4", "28", "31", "", "x27"),
-    "bmw" = c("client", "1", "5", "8", "", "x4"),
+    "bmw" = c("bmw", "1", "5", "8", "", "x4"),
     "lexus" = c("lexus", "5", "29", "32", "", "x28"),
     "mercedes benz" = c("mercedes_benz", "2", "26", "29", "", "x25"),
     "tesla" = c("tesla", "3", "27", "30", "", "x26")
@@ -95,7 +95,7 @@ brand_choice <- function(brand) {
   )
 
   bv_vec <- c(
-    "unaided_awareness_",
+    "awr_ua_",
     "awr_a_",
     "awr_aad_",
     "con_br_",
