@@ -55,9 +55,9 @@
 brand_cleaner <- function(tbl, brand, wide = FALSE) {
   brand_lookup <- c(
     "bmw" = "BMW",
-    "mercedes" = "Mercedes-Benz",
-    "mercedes benz" = "Mercedes-Benz",
-    "mb" = "Mercedes-Benz",
+    "mercedes" = "Mercedes Benz",
+    "mercedes benz" = "Mercedes Benz",
+    "mb" = "Mercedes Benz",
     "lexus" = "Lexus",
     "audi" = "Audi",
     "tesla" = "Tesla"
