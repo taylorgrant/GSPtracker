@@ -227,6 +227,19 @@ read_cint <- function(file_loc) {
       ),
     )
 
+  # flag unaided awareness by brands
+  unaided_flags <- df |>
+    dplyr::select(.data$response_id, dplyr::starts_with("awr_u_")) |>
+    flag_unaided_brands()
+
+  # join back to main data and convert NA to NULL
+  df <- df |>
+    dplyr::left_join(unaided_flags, by = c("response_id" = "response_id")) |>
+    dplyr::mutate(dplyr::across(
+      dplyr::starts_with("awr_ua_"),
+      ~ tidyr::replace_na(., "NULL")
+    ))
+
   out <- list(df = df)
 
   weight_map <- c(
