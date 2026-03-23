@@ -17,9 +17,6 @@
 #' @param include_quarter Logical. If `TRUE`, includes quarterly groupings in
 #'   the summaries and downstream comparisons.
 #'
-#' @importFrom stats prop.test
-#' @importFrom utils combn
-#'
 #' @return
 #' A tibble with one row per metric and grouping combination. Output includes:
 #' \itemize{
@@ -141,12 +138,12 @@ all_brand_summary <- function(
         return(tibble::tibble())
       }
 
-      pair_results <- combn(d$brand, 2, simplify = FALSE) |>
+      pair_results <- utils::combn(d$brand, 2, simplify = FALSE) |>
         purrr::map_dfr(function(pair) {
           d_sub <- d |>
             dplyr::filter(.data$brand %in% pair)
 
-          test_out <- prop.test(
+          test_out <- stats::prop.test(
             x = d_sub$n,
             n = d_sub$total
           )
