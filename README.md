@@ -23,18 +23,24 @@ remotes::install_github("taylorgrant/GSPtracker")
 Use `read_cint()` to import a tracker export and prepare cleaned
 respondent-level data plus survey designs. The object `cint` is a named
 list. The list will include a raw file `df`, an `unweighted` that’s used
-for overall results, and then a series of other weighted datasets used
-for control/exposed analysis.
+for overall results, and then a series of other weighted datasets
+(weights via the [dplyr](https://github.com/gergness/srvyr) package)
+used for control/exposed analysis. Datasets will depend on which weights
+are provided by Cint, e.g., YouTube, TV, Digital, Social, OOH, etc.
 
 ``` r
 cint <- read_cint("path/to/cint_tracker_file.xlsx")
 names(cint)
+head(cint$df)
 ```
 
 ### Get variable mappings for a brand
 
 Use `brand_choice()` to retrieve tracker variable mappings for supported
-brands (Audi, BMW, Lexus, Mercedes, Tesla).
+brands (Audi, BMW, Lexus, Mercedes, Tesla). The variable mappings are in
+a named list with three different tibbles. `brand_vars` are the standard
+tracker metrics, `brand_traits` are brand personality traits, and
+`brand_attrs` are the functional brand attributes.
 
 ``` r
 bmw_qs <- brand_choice("bmw")
@@ -51,7 +57,7 @@ There are a number of arguments in the summary function:
 - include_month: TRUE/FALSE, do you want data at the monthly level
 - inlcude_quarter: TRUE/FALSE, do you want data rolled up to the
   quarterly level (if `include_month` and `include_quarter` are both
-  FALSE, all metrics will be aggregated to single values)
+  FALSE, all metrics will be aggregated to single, overall values)
 - moving_average: TRUE/FALSE, if `include_month` is also TRUE, a 3-month
   moving average will be estimated
 - drop_unaware: TRUE/FALSE, drops those that aren’t aware of BMW.
@@ -63,7 +69,7 @@ To run over a single metric:
 
 ``` r
 brand_summary(
-  cint$campaign,
+  cint$unweighted,
   groups = NULL,
   qq = bmw_qs$brand_vars[bmw_qs$brand_vars$q == "Unaided Awareness", ]$var
 )
@@ -126,7 +132,30 @@ bmw_wide <- brand_cleaner(bmw_all, brand = "bmw", wide = TRUE)
 head(bmw_wide)
 ```
 
-### Creative summary
+## Process all brands
+
+If you’re interested in running through all tracker questions across all
+brands, the `all_brand_summary()` function is available. It will return
+a wide-formatted data frame - each row is a metric, columns include the
+percentages for each brand and a 95% significant flag. BMW is the
+reference brand, so significance flags are: - `+`: BMW is significantly
+greater than that brand with 95% confidence - `-`: BMW is significantly
+lower than that brand with 95% confidence
+
+Most arguments work here - add a demographic group or split the data out
+by either month or quarter.
+
+``` r
+out <- all_brand_summary(
+  data = cint$unweighted,
+  groups = "demo_gender",
+  include_month = FALSE,
+  include_quarter = FALSE
+) |>
+  dplyr::filter(demo_gender == "Female")
+```
+
+## Creative summary
 
 Creative assets are also put into testing each month in the tracker.
 These are easily summarized.
@@ -139,7 +168,7 @@ If you want to split out by a demographic group, simply include it in
 the group argument:
 
 ``` r
-creative_overall <- creative_summary(data = cint$df, group = demo_gender)
+creative_overall <- creative_summary(data = cint$df, group = "demo_gender")
 ```
 
 ## Packaged benchmark data
