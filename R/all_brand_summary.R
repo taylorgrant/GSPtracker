@@ -77,6 +77,10 @@ all_brand_summary <- function(
   include_month = FALSE,
   include_quarter = FALSE
 ) {
+  if (moving_average && include_quarter) {
+    rlang::abort("`moving_average = TRUE` requires `include_quarter = FALSE`.")
+  }
+
   brands <- c("Audi", "BMW", "Lexus", "Mercedes Benz", "Tesla")
 
   # internal helper function
