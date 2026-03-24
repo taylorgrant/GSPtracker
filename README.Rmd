@@ -35,6 +35,16 @@ names(cint)
 head(cint$df)
 ```
 
+### Check n-size of demo groups 
+
+There is a helper function to see the n-size of demographic variables in the data. View the counts across all data, by month, or by quarter. The function returns two tibbles - overall, and by control/exposed. And while it's focused on demographics, it will count groups in any column in the data. 
+
+```{r, eval = FALSE}
+demo_count(cint, demo = "demo_gender")
+demo_count(cint, demo = "demo_gender", date_break = "quarter")
+demo_count(cint, demo = "demo_gender", date_break = "month")
+```
+
 ### Get variable mappings for a brand
 
  Use `brand_choice()` to retrieve tracker variable mappings for supported brands (Audi, BMW, Lexus, Mercedes, Tesla). The variable mappings are in a named list with three different tibbles. `brand_vars` are the standard tracker metrics, `brand_traits` are brand personality traits, and `brand_attrs` are the functional brand attributes. 

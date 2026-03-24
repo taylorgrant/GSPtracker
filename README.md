@@ -34,6 +34,20 @@ names(cint)
 head(cint$df)
 ```
 
+### Check n-size of demo groups
+
+There is a helper function to see the n-size of demographic variables in
+the data. View the counts across all data, by month, or by quarter. The
+function returns two tibbles - overall, and by control/exposed. And
+while it’s focused on demographics, it will count groups in any column
+in the data.
+
+``` r
+demo_count(cint, demo = "demo_gender")
+demo_count(cint, demo = "demo_gender", date_break = "quarter")
+demo_count(cint, demo = "demo_gender", date_break = "month")
+```
+
 ### Get variable mappings for a brand
 
 Use `brand_choice()` to retrieve tracker variable mappings for supported
