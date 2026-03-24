@@ -96,6 +96,10 @@ brand_summary <- function(
   moving_average = FALSE,
   drop_unaware = TRUE
 ) {
+  # make sure that month and quarter aren't both included
+  if (include_month && include_quarter) {
+    rlang::abort("`include_month` and `include_quarter` can't both equal TRUE")
+  }
   # check that moving average can be run (only if including months)
   if (moving_average && !include_month) {
     rlang::abort("`moving_average = TRUE` requires `include_month = TRUE`.")
