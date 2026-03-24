@@ -62,6 +62,14 @@ bmw_qtrly_benchmarks_2025 <- list(
     "data-raw/bmw_qtrly_benchmarks_2025.xlsx",
     sheet = "bmw_zmq"
   )
-)
+) |>
+  purrr::map(
+    ~ {
+      .x |>
+        dplyr::mutate(
+          quarter = as.Date(quarter)
+        )
+    }
+  )
 
 usethis::use_data(bmw_qtrly_benchmarks_2025, overwrite = TRUE)
