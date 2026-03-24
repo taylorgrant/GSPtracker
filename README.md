@@ -137,13 +137,12 @@ head(bmw_wide)
 If you’re interested in running through all tracker questions across all
 brands, the `all_brand_summary()` function is available. It will return
 a wide-formatted data frame - each row is a metric, columns include the
-percentages for each brand and a 95% significant flag. BMW is the
-reference brand, so significance flags are: - `+`: BMW is significantly
-greater than that brand with 95% confidence - `-`: BMW is significantly
-lower than that brand with 95% confidence
+percentages for each brand and a 95% significant flag.
 
-Most arguments work here - add a demographic group or split the data out
-by either month or quarter.
+BMW is the reference brand, so significance flags are:
+
+- `+`: BMW is significantly greater than that brand with 95% confidence
+- `-`: BMW is significantly lower than that brand with 95% confidence
 
 ``` r
 out <- all_brand_summary(
@@ -168,7 +167,7 @@ If you want to split out by a demographic group, simply include it in
 the group argument:
 
 ``` r
-creative_overall <- creative_summary(data = cint$df, group = "demo_gender")
+creative_gender <- creative_summary(data = cint$df, group = "demo_gender")
 ```
 
 ## Packaged benchmark data
@@ -178,19 +177,21 @@ The package also includes benchmark data saved as package datasets.
 ### Creative benchmarks
 
 Creative benchmarks from 2025 are included for the total audience
-(overall), female, AAPI, and Gen Z/Millennials. The benchmarks split out
-by Social assets (Social) and other ads, normally TV and CTV (Other).
+(Overall), Women, AAPI, and Gen Z/Millennials (GenzMill). The benchmarks
+split out by Social assets (Social) and other ads, normally TV and CTV
+(Other).
 
 ``` r
 creative_bench <- get_creative_benchmarks()
-overall <- creative_bench$overall
+overall <- creative_bench$Overall
 overall
 ```
 
 ### BMW annual benchmarks
 
 Benchmarks for the 2025 tracker are also included. These are also broken
-out by overall, female, AAPI, and Gen Z / Millennials.
+out by total audience (Overall), Women, AAPI, and Gen Z / Millennials
+(GenZMill).
 
 For the annual average:
 
