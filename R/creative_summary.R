@@ -274,7 +274,7 @@ creative_summary <- function(data, group = NULL) {
   # comparing results to benchmarks (rather than stat sig)
   tmp <- purrr::map_dfr(
     diagnostics$var,
-    ~ creative_check(data, qq = .x, group = NULL)
+    ~ creative_check(data, qq = .x, group)
   ) |>
     dplyr::left_join(diagnostics, by = c("qq" = "var"))
   return(tmp)
