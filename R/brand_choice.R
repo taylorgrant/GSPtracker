@@ -66,12 +66,12 @@ brand_choice <- function(brand) {
 
   bv_n <- switch(
     brand_clean,
-    "none of the above" = c("6", "7", "7", "", "x6"),
-    "audi" = c("audi", "4", "28", "31", "", "x27"),
-    "bmw" = c("bmw", "1", "5", "8", "", "x4"),
-    "lexus" = c("lexus", "5", "29", "32", "", "x28"),
-    "mercedes benz" = c("mercedes_benz", "2", "26", "29", "", "x25"),
-    "tesla" = c("tesla", "3", "27", "30", "", "x26")
+    "none of the above" = c("6", "7", "7", "", "x6", "10"),
+    "audi" = c("audi", "4", "28", "31", "", "x27", "37"),
+    "bmw" = c("bmw", "1", "5", "8", "", "x4", "14"),
+    "lexus" = c("lexus", "5", "29", "32", "", "x28", "38"),
+    "mercedes benz" = c("mercedes_benz", "2", "26", "29", "", "x25", "35"),
+    "tesla" = c("tesla", "3", "27", "30", "", "x26", "36")
   )
 
   bpt_n <- switch(
@@ -100,7 +100,8 @@ brand_choice <- function(brand) {
     "awr_aad_",
     "con_br_",
     "pi_br",
-    "momentum_br_"
+    "momentum_br_",
+    "pay_premium_new_march_"
   )
   bpt_vec <- c(
     "att_brpersonality_1_",
@@ -145,7 +146,8 @@ brand_choice <- function(brand) {
       "Aided Ad Awareness",
       "Purchase Consideration",
       "Purchase Intent",
-      "Brand Momentum"
+      "Brand Momentum",
+      "Pay Premium"
     )
   )
 
