@@ -121,7 +121,6 @@ brand_summary <- function(
     "probs" = NULL
   )
 
-  # renaming for variable as 'svy_q'
   tmp <- data |>
     dplyr::mutate(
       month = lubridate::floor_date(date, "month"),
@@ -209,7 +208,8 @@ brand_summary <- function(
       svy_q = stringr::str_remove_all(.data$svy_q, "\r|\n")
     ) |>
     dplyr::filter(.data$svy_q != "NULL") |> # dropping null from unaided awareness
-    dplyr::filter(.data$svy_q != 0) |>
+    dplyr::filter(.data$svy_q != 0) |> # dropping the non's
+    dplyr::filter(.data$svy_q != -99) |>
     dplyr::select(-c(.data$proportion_se, .data$n_se))
 
   if (moving_average) {
