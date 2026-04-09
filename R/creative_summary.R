@@ -128,7 +128,12 @@ creative_summary <- function(data, group = NULL) {
             total = sum(.data$n),
             box = dplyr::case_when(
               !!rlang::sym(qq) %in%
-                c("Somewhat Agree", "Strongly Agree") ~ "T2B",
+                c(
+                  "Somewhat Agree",
+                  "Strongly Agree",
+                  "Somewhat likely",
+                  "Very likely"
+                ) ~ "T2B",
               TRUE ~ 'not'
             )
           ) |>
@@ -226,11 +231,17 @@ creative_summary <- function(data, group = NULL) {
           ) |>
           dplyr::summarise(n = dplyr::n()) |>
           dplyr::filter(!!rlang::sym(qq) != "NULL") |>
+          dplyr::filter(!!rlang::sym(qq) != "-99") |>
           dplyr::mutate(
             total = sum(.data$n),
             box = dplyr::case_when(
               !!rlang::sym(qq) %in%
-                c("Somewhat Agree", "Strongly Agree") ~ "T2B",
+                c(
+                  "Somewhat Agree",
+                  "Strongly Agree",
+                  "Somewhat likely",
+                  "Very likely"
+                ) ~ "T2B",
               TRUE ~ 'not'
             )
           ) |>
@@ -252,7 +263,13 @@ creative_summary <- function(data, group = NULL) {
   }
 
   diagnostics <- tibble::tibble(
-    var = c("ad_opn", "ad_rec", "ad_pi", paste0("ad_diag2_", c(1:11, 19))),
+    var = c(
+      "ad_opn",
+      "ad_rec",
+      "ad_pi",
+      paste0("ad_diag2_", c(1:11, 19)),
+      "bmw_prem_pay_new_march"
+    ),
     statement = c(
       "Ad change opinion of BMW (T2B Better)",
       "Seen ad past 2 weeks",
@@ -268,7 +285,8 @@ creative_summary <- function(data, group = NULL) {
       "Makes me want to learn more about the product/brand",
       "Is confusing",
       "Is irritating",
-      "Makes me think this is a brand for me"
+      "Makes me think this is a brand for me",
+      "Pay more for BMW over similar offering from other brands"
     )
   )
   # comparing results to benchmarks (rather than stat sig)
