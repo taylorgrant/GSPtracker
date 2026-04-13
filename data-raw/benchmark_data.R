@@ -17,6 +17,14 @@ creative_benchmarks_2025 <- list(
   GenZMill = readxl::read_excel(
     "data-raw/benchmarks_2025.xlsx",
     sheet = "genz_mill"
+  ),
+  Millennials = readxl::read_excel(
+    "data-raw/benchmarks_2025.xlsx",
+    sheet = "millennials"
+  ),
+  GenZ = readxl::read_excel(
+    "data-raw/benchmarks_2025.xlsx",
+    sheet = "gen_z"
   )
 )
 
@@ -39,6 +47,14 @@ bmw_benchmarks_2025 <- list(
   GenZMill = readxl::read_excel(
     "data-raw/bmw_benchmarks_2025.xlsx",
     sheet = "bmw_zm"
+  ),
+  Millennials = readxl::read_excel(
+    "data-raw/bmw_benchmarks_2025.xlsx",
+    sheet = "bmw_millennial"
+  ),
+  GenZ = readxl::read_excel(
+    "data-raw/bmw_benchmarks_2025.xlsx",
+    sheet = "bmw_genz"
   )
 )
 
@@ -61,6 +77,14 @@ bmw_qtrly_benchmarks_2025 <- list(
   GenZMill = readxl::read_excel(
     "data-raw/bmw_qtrly_benchmarks_2025.xlsx",
     sheet = "bmw_zmq"
+  ),
+  Millennials = readxl::read_excel(
+    "data-raw/bmw_qtrly_benchmarks_2025.xlsx",
+    sheet = "bmw_millennialq"
+  ),
+  GenZ = readxl::read_excel(
+    "data-raw/bmw_qtrly_benchmarks_2025.xlsx",
+    sheet = "bmw_genzq"
   )
 ) |>
   purrr::map(
