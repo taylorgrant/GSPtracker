@@ -25,6 +25,10 @@ creative_benchmarks_2025 <- list(
   GenZ = readxl::read_excel(
     "data-raw/benchmarks_2025.xlsx",
     sheet = "gen_z"
+  ),
+  EVIntenders = readxl::read_excel(
+    "data-raw/benchmarks_2025.xlsx",
+    sheet = "ev_intender"
   )
 )
 
