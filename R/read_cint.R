@@ -135,7 +135,7 @@ read_cint <- function(file_loc) {
             "TENNESSEE",
             "TEXAS",
             "VIRGINIA",
-            "WEST VIRGINIA",
+            "WEST VIRGINIA"
           ) ~ "Southern",
         demo_state %in%
           c(
