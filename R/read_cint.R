@@ -125,10 +125,8 @@ read_cint <- function(file_loc) {
           c(
             "ALABAMA",
             "ARKANSAS",
-            "DISTRICT OF COLUMBIA",
             "FLORIDA",
             "GEORGIA",
-            "KENTUCKY",
             "LOUISIANA",
             "MISSISSIPPI",
             "NORTH CAROLINA",
@@ -138,14 +136,14 @@ read_cint <- function(file_loc) {
             "TEXAS",
             "VIRGINIA",
             "WEST VIRGINIA",
-            "DELAWARE"
-          ) ~ "South",
+          ) ~ "Southern",
         demo_state %in%
           c(
             "ILLINOIS",
             "INDIANA",
             "IOWA",
             "KANSAS",
+            "KENTUCKY",
             "MICHIGAN",
             "MINNESOTA",
             "MISSOURI",
@@ -154,10 +152,12 @@ read_cint <- function(file_loc) {
             "OHIO",
             "SOUTH DAKOTA",
             "WISCONSIN"
-          ) ~ "Midwest",
+          ) ~ "Central",
         demo_state %in%
           c(
             "CONNECTICUT",
+            "DELAWARE",
+            "DISTRICT OF COLUMBIA",
             "MAINE",
             "MASSACHUSETTS",
             "MARYLAND",
@@ -167,8 +167,23 @@ read_cint <- function(file_loc) {
             "PENNSYLVANIA",
             "RHODE ISLAND",
             "VERMONT"
-          ) ~ "Northeast",
-        TRUE ~ "West"
+          ) ~ "Eastern",
+        demo_state %in%
+          c(
+            "ALASKA",
+            "ARIZONA",
+            "CALIFORNIA",
+            "COLORADO",
+            "HAWAII",
+            "IDAHO",
+            "MONTANA",
+            "NEVADA",
+            "NEW MEXICO",
+            "OREGON",
+            "UTAH",
+            "WASHINGTON",
+            "WYOMING"
+          ) ~ "Western"
       ),
       genz_millen = dplyr::if_else(
         stringr::str_detect(.data$generations, "Z|Mill"),
