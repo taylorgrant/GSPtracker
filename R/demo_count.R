@@ -76,7 +76,7 @@ demo_count <- function(data, demo, date_break = NULL) {
       unweighted_n = dplyr::n(),
       weighted_n = srvyr::survey_total()
     ) |>
-    dplyr::select(-c(.data$proportion_se, .data$n_se)) |>
+    dplyr::select(-c(.data$proportion_se, .data$weighted_n_se)) |>
     dplyr::filter(.data$matched_control_xmedia != "unclassified")
 
   list(unweighted = a, control_exposed = b)
