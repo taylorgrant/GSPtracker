@@ -74,7 +74,7 @@ demo_count <- function(data, demo, date_break = NULL) {
     srvyr::summarise(
       proportion = srvyr::survey_mean(),
       unweighted_n = dplyr::n(),
-      weighted_n <- srvyr::survey_total()
+      weighted_n = srvyr::survey_total()
     ) |>
     dplyr::select(-c(.data$proportion_se, .data$n_se)) |>
     dplyr::filter(.data$matched_control_xmedia != "unclassified")

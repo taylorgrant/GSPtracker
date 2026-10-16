@@ -19,5 +19,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Taylor Grant \email{taylor.grant@omc.com}
 
+Authors:
+\itemize{
+  \item Taylor Grant \email{taylor.grant@omc.com}
+}
+
 }
 \keyword{internal}
